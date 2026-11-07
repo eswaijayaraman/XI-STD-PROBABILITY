@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBSE Class 11 Math: Probability Mastery</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js for probability charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#16a34a',
+              600: '#15803d',
+              700: '#166534',
+            },
+            accent: {
+              500: '#8b5cf6',
+              600: '#7c3aed',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+    }
+    .tab-active {
+      border-bottom: 3px solid #16a34a;
+      color: #16a34a;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body class="text-slate-800 flex flex-col min-h-screen">
+
+  <!-- TOP HEADER & NAVBAR -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-brand-500 flex items-center justify-center text-white font-bold text-xl shadow">
+          P
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-slate-900 leading-tight">CBSE Class 11 Mathematics</h1>
+          <p class="text-xs text-slate-500 font-medium">Chapter 14: Probability (Foundational Mastery)</p>
+        </div>
+      </div>
+      
+      <!-- Right Actions -->
+      <div class="flex items-center space-x-3">
+        <button onclick="toggleModal('cheatsheet-modal')" class="flex items-center space-x-1.5 text-sm bg-purple-50 hover:bg-purple-100 text-purple-700 px-3 py-1.5 rounded-lg border border-purple-200 font-medium transition">
+          <i class="fa-solid fa-book-bookmark text-purple-600"></i>
+          <span>Formula Sheet</span>
+        </button>
+        <div class="bg-brand-50 border border-brand-100 rounded-lg px-3 py-1 flex items-center space-x-2">
+          <i class="fa-solid fa-star text-amber-500 text-sm"></i>
+          <span class="text-xs font-semibold text-slate-600">Points: <span id="score-display" class="text-brand-600 text-sm font-bold">0</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-8 border-t border-slate-100 text-sm overflow-x-auto">
+      <button onclick="switchTab('concepts')" id="tab-btn-concepts" class="py-3 px-1 tab-active transition whitespace-nowrap flex items-center space-x-2">
+        <i class="fa-solid fa-lightbulb"></i> <span>1. Visual Concepts</span>
+      </button>
+      <button onclick="switchTab('simulator')" id="tab-btn-simulator" class="py-3 px-1 text-slate-500 hover:text-slate-800 transition whitespace-nowrap flex items-center space-x-2">
+        <i class="fa-solid fa-dice"></i> <span>2. Event Simulator & Calc</span>
+      </button>
+      <button onclick="switchTab('ncert')" id="tab-btn-ncert" class="py-3 px-1 text-slate-500 hover:text-slate-800 transition whitespace-nowrap flex items-center space-x-2">
+        <i class="fa-solid fa-book-open text-emerald-600"></i> <span class="font-bold text-emerald-700">3. NCERT Solutions</span>
+      </button>
+      <button onclick="switchTab('practice')" id="tab-btn-practice" class="py-3 px-1 text-slate-500 hover:text-slate-800 transition whitespace-nowrap flex items-center space-x-2">
+        <i class="fa-solid fa-circle-check"></i> <span>4. Guided Practice</span>
+      </button>
+      <button onclick="switchTab('plan')" id="tab-btn-plan" class="py-3 px-1 text-slate-500 hover:text-slate-800 transition whitespace-nowrap flex items-center space-x-2">
+        <i class="fa-solid fa-list-check"></i> <span>5. Revision Plan</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
+
+    <!-- ================= SECTION 1: CONCEPTS & FLASHCARDS ================= -->
+    <section id="tab-concepts" class="space-y-6">
+      <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex items-start space-x-3">
+        <i class="fa-solid fa-circle-info text-brand-500 text-xl mt-0.5"></i>
+        <div>
+          <h3 class="font-semibold text-brand-700">Learning Tip for Slow Learners</h3>
+          <p class="text-sm text-slate-600">Probability is simply: <b>(Favorable Outcomes) &divide; (Total Possible Outcomes)</b>. Keep track of sample space <i>S</i> first before solving any probability question!</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Sample Space Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 space-y-3 hover:shadow-md transition">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 bg-blue-100 text-blue-800 font-bold text-xs rounded-full">Foundation</span>
+            <i class="fa-solid fa-shapes text-slate-400"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-800">Sample Space (<i>S</i>)</h3>
+          <p class="text-xs text-slate-500">The set of all possible outcomes of a random experiment.</p>
+          <div class="bg-slate-50 p-3 rounded-lg text-xs space-y-1.5 border border-slate-100">
+            <div><b>Coin Toss:</b> <i>S</i> = {H, T} &implies; <i>n(S)</i> = 2</div>
+            <div><b>Two Coins:</b> <i>S</i> = {HH, HT, TH, TT} &implies; <i>n(S)</i> = 4</div>
+            <div><b>Single Die:</b> <i>S</i> = {1, 2, 3, 4, 5, 6} &implies; <i>n(S)</i> = 6</div>
+          </div>
+        </div>
+
+        <!-- Addition Theorem Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 space-y-3 hover:shadow-md transition">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 font-bold text-xs rounded-full">Core Rule</span>
+            <i class="fa-solid fa-plus text-slate-400"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-800">Addition Theorem</h3>
+          <p class="text-xs text-slate-500">Probability of event A OR event B occurring.</p>
+          <div class="bg-slate-50 p-3 rounded-lg text-xs space-y-1.5 border border-slate-100">
+            <div><b>General Rule:</b></div>
+            <div class="text-brand-600 font-bold"><i>P(A &cup; B)</i> = <i>P(A)</i> + <i>P(B)</i> - <i>P(A &cap; B)</i></div>
+            <div class="text-slate-500 mt-1">&bull; <i>A &cup; B</i> means "A or B"</div>
+            <div class="text-slate-500">&bull; <i>A &cap; B</i> means "A and B"</div>
+          </div>
+        </div>
+
+        <!-- Mutually Exclusive Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 space-y-3 hover:shadow-md transition">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 bg-purple-100 text-purple-800 font-bold text-xs rounded-full">Key Concept</span>
+            <i class="fa-solid fa-ban text-slate-400"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-800">Mutually Exclusive Events</h3>
+          <p class="text-xs text-slate-500">Events that CANNOT happen at the same time.</p>
+          <div class="bg-slate-50 p-3 rounded-lg text-xs space-y-1.5 border border-slate-100">
+            <div><b>Condition:</b> <i>A &cap; B</i> = &empty; (Empty Set)</div>
+            <div class="text-purple-600 font-bold"><i>P(A &cap; B)</i> = 0</div>
+            <div><b>Simplified Sum:</b> <i>P(A &cup; B)</i> = <i>P(A)</i> + <i>P(B)</i></div>
+          </div>
+        </div>
+
+        <!-- Complementary Event Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 space-y-3 hover:shadow-md transition">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 bg-amber-100 text-amber-800 font-bold text-xs rounded-full">Shortcut</span>
+            <i class="fa-solid fa-circle-half-stroke text-slate-400"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-800">Complementary Event (Not A)</h3>
+          <p class="text-xs text-slate-500">The event that A does NOT happen, written as A' or Not A.</p>
+          <div class="bg-slate-50 p-3 rounded-lg text-xs space-y-1.5 border border-slate-100">
+            <div class="text-amber-700 font-bold"><i>P(Not A)</i> = 1 - <i>P(A)</i></div>
+            <div><b>Total Probability:</b> <i>P(A)</i> + <i>P(Not A)</i> = 1</div>
+            <div><b>Tip:</b> "At least 1" = 1 - <i>P(None)</i></div>
+          </div>
+        </div>
+
+        <!-- Exhaustive Events Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 space-y-3 hover:shadow-md transition">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 bg-rose-100 text-rose-800 font-bold text-xs rounded-full">Definition</span>
+            <i class="fa-solid fa-list-check text-slate-400"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-800">Exhaustive Events</h3>
+          <p class="text-xs text-slate-500">Events whose union covers the entire sample space <i>S</i>.</p>
+          <div class="bg-slate-50 p-3 rounded-lg text-xs space-y-1.5 border border-slate-100">
+            <div><b>Condition:</b> <i>E</i><sub>1</sub> &cup; <i>E</i><sub>2</sub> &cup; ... &cup; <i>E<sub>n</sub></i> = <i>S</i></div>
+            <div class="text-rose-700 font-bold"><i>P(E</i><sub>1</sub>) + <i>P(E</i><sub>2</sub>) + ... + <i>P(E<sub>n</sub>)</i> = 1</div>
+          </div>
+        </div>
+
+        <!-- Playing Cards Deck Info Card -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 space-y-3 hover:shadow-md transition">
+          <div class="flex items-center justify-between">
+            <span class="px-2.5 py-1 bg-sky-100 text-sky-800 font-bold text-xs rounded-full">Deck Knowledge</span>
+            <i class="fa-solid fa-clone text-slate-400"></i>
+          </div>
+          <h3 class="text-lg font-bold text-slate-800">Standard 52 Playing Cards</h3>
+          <p class="text-xs text-slate-500">Essential facts often asked in CBSE problems.</p>
+          <div class="bg-slate-50 p-3 rounded-lg text-xs space-y-1 border border-slate-100">
+            <div><b>Total Cards:</b> 52 (26 Red, 26 Black)</div>
+            <div><b>4 Suits (13 each):</b> Hearts(&hearts;), Diamonds(&diams;), Clubs(&clubs;), Spades(&spades;)</div>
+            <div><b>Face Cards:</b> 12 (4 Kings, 4 Queens, 4 Jacks)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 2: INTERACTIVE SIMULATOR & CALCULATOR ================= -->
+    <section id="tab-simulator" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Interactive Dice & Coin Simulator -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
+          <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-dice text-brand-500"></i> Interactive Event Simulator
+          </h3>
+          <p class="text-xs text-slate-500">Simulate random trials to see how experimental frequency approaches theoretical probability!</p>
+          
+          <div class="flex space-x-2 pt-2">
+            <button onclick="rollDiceSim()" class="px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg font-medium text-xs transition">
+              <i class="fa-solid fa-dice mr-1"></i> Roll Single Die (10x)
+            </button>
+            <button onclick="tossCoinSim()" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium text-xs transition">
+              <i class="fa-solid fa-coins mr-1"></i> Flip Two Coins (10x)
+            </button>
+            <button onclick="resetSim()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-xs transition">
+              Reset
+            </button>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 space-y-2">
+            <div id="sim-status" class="text-xs font-semibold text-slate-700">Total Trials: 0</div>
+            <div id="sim-log" class="text-xs font-mono text-slate-600 max-h-24 overflow-y-auto space-y-0.5">
+              Press a button above to run trials...
+            </div>
+          </div>
+
+          <div class="h-48 relative">
+            <canvas id="simChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Addition Theorem Calculator -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
+          <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+            <i class="fa-solid fa-calculator text-purple-600"></i> P(A &cup; B) Step Calculator
+          </h3>
+          <p class="text-xs text-slate-500">Calculate probability of event union step-by-step.</p>
+
+          <div class="space-y-3 pt-2">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">P(A) [Probability of Event A]</label>
+              <input type="number" id="calc-pa" value="0.5" step="0.05" min="0" max="1" oninput="calculateUnion()" class="w-full border border-slate-300 rounded-lg p-2 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">P(B) [Probability of Event B]</label>
+              <input type="number" id="calc-pb" value="0.4" step="0.05" min="0" max="1" oninput="calculateUnion()" class="w-full border border-slate-300 rounded-lg p-2 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">P(A &cap; B) [Probability of Both A and B]</label>
+              <input type="number" id="calc-pab" value="0.2" step="0.05" min="0" max="1" oninput="calculateUnion()" class="w-full border border-slate-300 rounded-lg p-2 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+            </div>
+          </div>
+
+          <div class="bg-purple-50/60 border border-purple-100 rounded-xl p-4 text-xs space-y-2">
+            <div class="font-bold text-purple-800">Step-by-Step Calculation:</div>
+            <div id="calc-result-steps" class="space-y-1 text-slate-700"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SECTION 3: NCERT SOLUTIONS ================= -->
+    <section id="tab-ncert" class="hidden space-y-6">
+      <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-emerald-900 flex items-center gap-2">
+            <i class="fa-solid fa-graduation-cap text-emerald-600"></i> NCERT Textbook Step-by-Step Solutions
+          </h2>
+          <p class="text-xs text-emerald-700 mt-1">Curated exercise problems from CBSE Class 11 Probability with clear step-by-step working.</p>
+        </div>
+        <div class="flex items-center space-x-2">
+          <label class="text-xs font-semibold text-slate-600">Filter Topic:</label>
+          <select id="ncert-filter" onchange="filterNcertSolutions()" class="bg-white border border-slate-300 text-slate-700 text-xs rounded-lg p-2 focus:ring-2 focus:ring-emerald-500 outline-none">
+            <option value="all">All Topics</option>
+            <option value="sample-space">Sample Space & Events</option>
+            <option value="addition-theorem">Addition Theorem</option>
+            <option value="mutually-exclusive">Mutually Exclusive Events</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- NCERT Solutions List -->
+      <div id="ncert-solutions-list" class="space-y-4">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- ================= SECTION 4: GUIDED PRACTICE ================= -->
+    <section id="tab-practice" class="hidden space-y-6">
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-4 mb-6">
+          <div>
+            <span class="text-xs font-bold text-brand-600 bg-brand-50 px-2.5 py-1 rounded-full uppercase tracking-wide">Interactive Practice</span>
+            <h2 class="text-xl font-bold text-slate-800 mt-1" id="question-title">Question 1 of 5</h2>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="text-xs text-slate-500">Progress:</span>
+            <div class="w-32 bg-slate-100 rounded-full h-2.5">
+              <div id="progress-bar" class="bg-brand-500 h-2.5 rounded-full transition-all duration-300" style="width: 20%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Question Body -->
+        <div class="space-y-4">
+          <div id="question-text" class="text-slate-800 font-medium text-lg min-h-[50px]">
+            <!-- Inserted via JS -->
+          </div>
+
+          <!-- Options Grid -->
+          <div id="options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Hint Section -->
+          <div id="hint-box" class="hidden bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm text-amber-800 space-y-1">
+            <div class="font-bold flex items-center space-x-1">
+              <i class="fa-solid fa-lightbulb text-amber-600"></i> <span>Step-by-Step Hint:</span>
+            </div>
+            <div id="hint-text"></div>
+          </div>
+
+          <!-- Full Solution Section -->
+          <div id="solution-box" class="hidden bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm text-slate-700 space-y-2">
+            <div class="font-bold text-brand-600 flex items-center space-x-1">
+              <i class="fa-solid fa-circle-check"></i> <span>Detailed CBSE Solution Steps:</span>
+            </div>
+            <div id="solution-text" class="space-y-1 text-xs sm:text-sm"></div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-100">
+            <button onclick="toggleHint()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-medium transition flex items-center space-x-2">
+              <i class="fa-solid fa-question-circle"></i> <span>Need a Hint?</span>
+            </button>
+            <button id="next-btn" onclick="nextQuestion()" class="hidden px-6 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg text-sm font-semibold transition">
+              Next Question <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 5: REVISION PLAN ================= -->
+    <section id="tab-plan" class="hidden space-y-6">
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-4">
+        <h2 class="text-xl font-bold text-slate-800">Slow Learners 3-Day Probability Revision Plan</h2>
+        <p class="text-sm text-slate-600">A clear, simple roadmap to guarantee 50%+ marks in Chapter 14.</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+            <div class="font-bold text-brand-600 text-sm">DAY 1: Sample Space Mastery</div>
+            <ul class="text-xs text-slate-600 space-y-2 mt-2">
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i>Write sample space <i>S</i> for coins/dice</li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i>Count total outcomes <i>n(S)</i></li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i>Identify simple event outcomes <i>n(E)</i></li>
+            </ul>
+          </div>
+          <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+            <div class="font-bold text-purple-600 text-sm">DAY 2: Addition Theorem & Complement</div>
+            <ul class="text-xs text-slate-600 space-y-2 mt-2">
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i>Master <i>P(A &cup; B)</i> formula</li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i>Use <i>P(Not A)</i> = 1 - <i>P(A)</i></li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i>Solve 2-event set probability questions</li>
+            </ul>
+          </div>
+          <div class="border border-slate-200 rounded-lg p-4 bg-slate-50">
+            <div class="font-bold text-amber-600 text-sm">DAY 3: Mutually Exclusive & Playing Cards</div>
+            <ul class="text-xs text-slate-600 space-y-2 mt-2">
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i>Identify Mutually Exclusive events [<i>P(A &cap; B)</i> = 0]</li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i>Revise 52 playing card breakdowns</li>
+              <li class="flex items-center"><i class="fa-solid fa-check text-emerald-500 mr-2"></i>Complete Guided Practice quiz twice</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FORMULA CHEAT SHEET MODAL -->
+  <div id="cheatsheet-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-xl border border-slate-100 max-h-[90vh] overflow-y-auto">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-slate-800 text-lg flex items-center gap-2">
+          <i class="fa-solid fa-bolt text-purple-600"></i> Quick Probability Cheat Sheet
+        </h3>
+        <button onclick="toggleModal('cheatsheet-modal')" class="text-slate-400 hover:text-slate-600">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-sm">
+        <div class="bg-brand-50 p-3.5 rounded-lg border border-brand-100 space-y-1.5">
+          <div class="font-bold text-brand-700">Basic Definition</div>
+          <div><b>Probability of Event E:</b> <i>P(E)</i> = <i>n(E)</i> / <i>n(S)</i></div>
+          <div><b>Range of Probability:</b> 0 &le; <i>P(E)</i> &le; 1</div>
+          <div><b>Impossible Event:</b> <i>P</i>(&empty;) = 0 | <b>Sure Event:</b> <i>P(S)</i> = 1</div>
+        </div>
+
+        <div class="bg-purple-50 p-3.5 rounded-lg border border-purple-100 space-y-1.5">
+          <div class="font-bold text-purple-700">Addition Theorem & Set Formulas</div>
+          <div><b>General Union:</b> <i>P(A &cup; B)</i> = <i>P(A)</i> + <i>P(B)</i> - <i>P(A &cap; B)</i></div>
+          <div><b>Mutually Exclusive:</b> <i>P(A &cap; B)</i> = 0 &implies; <i>P(A &cup; B)</i> = <i>P(A)</i> + <i>P(B)</i></div>
+          <div><b>Complement:</b> <i>P(A')</i> = 1 - <i>P(A)</i></div>
+        </div>
+
+        <div class="bg-amber-50 p-3.5 rounded-lg border border-amber-100 space-y-1">
+          <div class="font-bold text-amber-800">Quick Set Equivalences</div>
+          <div>&bull; <i>P(A but not B)</i> = <i>P(A - B)</i> = <i>P(A)</i> - <i>P(A &cap; B)</i></div>
+          <div>&bull; <i>P(Neither A nor B)</i> = <i>P(A' &cap; B')</i> = 1 - <i>P(A &cup; B)</i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- APP STATE ---
+    let userScore = 0;
+    let currentQuestionIdx = 0;
+    let simChartInstance = null;
+    let simCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+    let simTotal = 0;
+
+    // --- NCERT TEXTBOOK SOLUTIONS DATABASE ---
+    const ncertSolutions = [
+      {
+        id: "ncert-p1",
+        topic: "sample-space",
+        topicName: "Sample Space & Events",
+        qNo: "Q1",
+        question: "A coin is tossed twice. Write down the sample space S and find the probability of getting at least one head.",
+        given: "Experiment: Tossing a fair coin twice.",
+        formula: "Sample space <i>S</i> = {HH, HT, TH, TT}, <i>n(S)</i> = 4. <i>P(E)</i> = <i>n(E)</i> / <i>n(S)</i>",
+        steps: [
+          "1. Total outcomes in sample space: <i>S</i> = {HH, HT, TH, TT} &implies; <i>n(S)</i> = 4",
+          "2. Let event E = 'Getting at least one head'.",
+          "3. Outcomes favorable to E: {HH, HT, TH} &implies; <i>n(E)</i> = 3",
+          "4. Probability <i>P(E)</i> = <i>n(E)</i> / <i>n(S)</i> = 3/4"
+        ],
+        answer: "<i>P(At least 1 head)</i> = 3/4"
+      },
+      {
+        id: "ncert-p2",
+        topic: "addition-theorem",
+        topicName: "Addition Theorem",
+        qNo: "Q2",
+        question: "If <i>P(A)</i> = 0.6, <i>P(B)</i> = 0.5, and <i>P(A &cap; B)</i> = 0.3, find <i>P(A &cup; B)</i> and <i>P(Not A)</i>.",
+        given: "<i>P(A)</i> = 0.6, <i>P(B)</i> = 0.5, <i>P(A &cap; B)</i> = 0.3",
+        formula: "1) <i>P(A &cup; B)</i> = <i>P(A)</i> + <i>P(B)</i> - <i>P(A &cap; B)</i><br>2) <i>P(Not A)</i> = 1 - <i>P(A)</i>",
+        steps: [
+          "<b>For <i>P(A &cup; B)</i>:</b>",
+          "<i>P(A &cup; B)</i> = 0.6 + 0.5 - 0.3",
+          "<i>P(A &cup; B)</i> = 1.1 - 0.3 = 0.8",
+          "<b>For <i>P(Not A)</i>:</b>",
+          "<i>P(Not A)</i> = 1 - 0.6 = 0.4"
+        ],
+        answer: "<i>P(A &cup; B)</i> = 0.8 and <i>P(Not A)</i> = 0.4"
+      },
+      {
+        id: "ncert-p3",
+        topic: "mutually-exclusive",
+        topicName: "Mutually Exclusive Events",
+        qNo: "Q3",
+        question: "A die is thrown. Let A be event 'getting an even number' and B be event 'getting an odd number'. Are A and B mutually exclusive?",
+        given: "Sample space <i>S</i> = {1, 2, 3, 4, 5, 6}",
+        formula: "Two events are mutually exclusive if <i>A &cap; B</i> = &empty;, meaning <i>P(A &cap; B)</i> = 0",
+        steps: [
+          "1. Event A (Even numbers) = {2, 4, 6}",
+          "2. Event B (Odd numbers) = {1, 3, 5}",
+          "3. Intersection <i>A &cap; B</i> = {2, 4, 6} &cap; {1, 3, 5} = &empty;",
+          "4. Since there are no common elements, <i>A &cap; B</i> is an empty set."
+        ],
+        answer: "Yes, events A and B are mutually exclusive because <i>A &cap; B</i> = &empty;."
+      },
+      {
+        id: "ncert-p4",
+        topic: "addition-theorem",
+        topicName: "Addition Theorem",
+        qNo: "Q4",
+        question: "One card is drawn from a well-shuffled deck of 52 cards. Find the probability that the card is a King OR a Heart.",
+        given: "Total cards <i>n(S)</i> = 52. Let A = 'King', B = 'Heart'.",
+        formula: "<i>P(A &cup; B)</i> = <i>P(A)</i> + <i>P(B)</i> - <i>P(A &cap; B)</i>",
+        steps: [
+          "1. Total Kings = 4 &implies; <i>P(A)</i> = 4/52",
+          "2. Total Hearts = 13 &implies; <i>P(B)</i> = 13/52",
+          "3. King of Hearts (common to both) = 1 &implies; <i>P(A &cap; B)</i> = 1/52",
+          "4. <i>P(King OR Heart)</i> = (4/52) + (13/52) - (1/52) = (16/52) = 4/13"
+        ],
+        answer: "<i>P(King or Heart)</i> = 4/13"
+      }
+    ];
+
+    // --- GUIDED PRACTICE DATABASE ---
+    const practiceQuestions = [
+      {
+        title: "Question 1 of 5 (Sample Space)",
+        question: "What is the total number of outcomes <i>n(S)</i> when 3 fair coins are tossed together?",
+        options: ["6", "8", "9", "4"],
+        correct: 1,
+        hint: "Each coin has 2 outcomes (H or T). For 3 coins, total outcomes = 2 &times; 2 &times; 2.",
+        solution: [
+          "1. Single coin outcomes = 2 (H, T)",
+          "2. For 3 coins, <i>n(S)</i> = 2<sup>3</sup> = 2 &times; 2 &times; 2 = 8.",
+          "3. Sample Space <i>S</i> = {HHH, HHT, HTH, HTT, THH, THT, TTH, TTT}"
+        ]
+      },
+      {
+        title: "Question 2 of 5 (Complement)",
+        question: "If the probability of student passing an exam is <i>P(A)</i> = 0.75, what is the probability that the student fails <i>P(Not A)</i>?",
+        options: ["0.25", "0.75", "0.50", "0.15"],
+        correct: 0,
+        hint: "Use complementary probability rule: <i>P(Not A)</i> = 1 - <i>P(A)</i>.",
+        solution: [
+          "1. <i>P(A)</i> = 0.75",
+          "2. Formula: <i>P(Not A)</i> = 1 - <i>P(A)</i>",
+          "3. Calculation: 1 - 0.75 = 0.25."
+        ]
+      },
+      {
+        title: "Question 3 of 5 (Addition Theorem)",
+        question: "Given <i>P(A)</i> = 0.4, <i>P(B)</i> = 0.3, and <i>P(A &cap; B)</i> = 0.1, find <i>P(A &cup; B)</i>.",
+        options: ["0.8", "0.6", "0.7", "0.5"],
+        correct: 1,
+        hint: "Apply <i>P(A &cup; B)</i> = <i>P(A)</i> + <i>P(B)</i> - <i>P(A &cap; B)</i>.",
+        solution: [
+          "1. <i>P(A)</i> = 0.4, <i>P(B)</i> = 0.3, <i>P(A &cap; B)</i> = 0.1",
+          "2. <i>P(A &cup; B)</i> = 0.4 + 0.3 - 0.1",
+          "3. <i>P(A &cup; B)</i> = 0.7 - 0.1 = 0.6."
+        ]
+      },
+      {
+        title: "Question 4 of 5 (Mutually Exclusive)",
+        question: "If events A and B are mutually exclusive with <i>P(A)</i> = 0.35 and <i>P(B)</i> = 0.45, what is <i>P(A &cap; B)</i>?",
+        options: ["0.80", "0.00", "0.1575", "0.10"],
+        correct: 1,
+        hint: "Remember: Mutually exclusive means the two events CANNOT happen together!",
+        solution: [
+          "1. By definition of mutually exclusive events, <i>A &cap; B</i> = &empty;",
+          "2. Therefore, <i>P(A &cap; B)</i> = 0."
+        ]
+      },
+      {
+        title: "Question 5 of 5 (Dice Event)",
+        question: "A single die is thrown. What is the probability of getting a prime number?",
+        options: ["1/2", "1/3", "2/3", "1/6"],
+        correct: 0,
+        hint: "Sample space <i>S</i> = {1, 2, 3, 4, 5, 6}. Prime numbers on a die are 2, 3, and 5.",
+        solution: [
+          "1. <i>S</i> = {1, 2, 3, 4, 5, 6} &implies; <i>n(S)</i> = 6",
+          "2. Prime numbers E = {2, 3, 5} &implies; <i>n(E)</i> = 3",
+          "3. <i>P(Prime)</i> = <i>n(E)</i> / <i>n(S)</i> = 3/6 = 1/2."
+        ]
+      }
+    ];
+
+    // --- INITIALIZATION ---
+    window.onload = function() {
+      calculateUnion();
+      renderNcertSolutions('all');
+      loadQuestion(0);
+      initSimChart();
+    };
+
+    function renderNcertSolutions(filterKey) {
+      const container = document.getElementById('ncert-solutions-list');
+      container.innerHTML = '';
+
+      const filtered = filterKey === 'all' 
+        ? ncertSolutions 
+        : ncertSolutions.filter(item => item.topic === filterKey);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-slate-400">No solutions found for this topic filter.</div>`;
+        return;
+      }
+
+      filtered.forEach(sol => {
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-xl border border-slate-200 shadow-sm p-5 space-y-4 hover:shadow-md transition";
+        card.innerHTML = `
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b pb-2">
+            <div class="flex items-center space-x-2">
+              <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-0.5 rounded-full">${sol.topicName}</span>
+              <span class="font-extrabold text-slate-800">${sol.qNo}</span>
+            </div>
+            <button onclick="toggleNcertSteps('${sol.id}')" class="text-xs font-medium text-brand-600 hover:text-brand-700 flex items-center gap-1">
+              <span>View Full Steps</span> <i class="fa-solid fa-chevron-down text-xs" id="icon-${sol.id}"></i>
+            </button>
+          </div>
+
+          <div class="text-slate-800 font-semibold">${sol.question}</div>
+
+          <div id="${sol.id}" class="hidden space-y-3 pt-2 border-t border-slate-100 text-sm">
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 space-y-1 text-xs">
+              <div><b class="text-slate-700">Given:</b> ${sol.given}</div>
+              <div><b class="text-slate-700">Formula Used:</b> ${sol.formula}</div>
+            </div>
+            
+            <div class="space-y-1.5 pl-2 border-l-2 border-brand-500 text-slate-700">
+              <div class="font-bold text-xs uppercase tracking-wide text-brand-600">Step-by-Step Breakdown:</div>
+              ${sol.steps.map(step => `<div>${step}</div>`).join('')}
+            </div>
+
+            <div class="bg-emerald-50 border border-emerald-200 text-emerald-900 font-bold p-3 rounded-lg text-xs">
+              <i class="fa-solid fa-check-circle text-emerald-600 mr-1"></i> Final Answer: ${sol.answer}
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function toggleNcertSteps(id) {
+      const elem = document.getElementById(id);
+      const icon = document.getElementById(`icon-${id}`);
+      elem.classList.toggle('hidden');
+      if (elem.classList.contains('hidden')) {
+        icon.className = 'fa-solid fa-chevron-down text-xs';
+      } else {
+        icon.className = 'fa-solid fa-chevron-up text-xs';
+      }
+    }
+
+    function filterNcertSolutions() {
+      const val = document.getElementById('ncert-filter').value;
+      renderNcertSolutions(val);
+    }
+
+    function switchTab(tabId) {
+      ['concepts', 'simulator', 'ncert', 'practice', 'plan'].forEach(id => {
+        document.getElementById(`tab-${id}`).classList.add('hidden');
+        document.getElementById(`tab-btn-${id}`).classList.remove('tab-active');
+        document.getElementById(`tab-btn-${id}`).classList.add('text-slate-500');
+      });
+
+      document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+      document.getElementById(`tab-btn-${tabId}`).classList.add('tab-active');
+      document.getElementById(`tab-btn-${tabId}`).classList.remove('text-slate-500');
+    }
+
+    function toggleModal(modalId) {
+      const modal = document.getElementById(modalId);
+      modal.classList.toggle('hidden');
+    }
+
+    // --- CALCULATORS & SIMULATORS ---
+    function calculateUnion() {
+      const pa = parseFloat(document.getElementById('calc-pa').value) || 0;
+      const pb = parseFloat(document.getElementById('calc-pb').value) || 0;
+      const pab = parseFloat(document.getElementById('calc-pab').value) || 0;
+
+      const unionVal = Math.max(0, pa + pb - pab).toFixed(3);
+      const isMutuallyExclusive = pab === 0;
+
+      document.getElementById('calc-result-steps').innerHTML = `
+        <div><b>1. Formula:</b> <i>P(A &cup; B)</i> = <i>P(A)</i> + <i>P(B)</i> - <i>P(A &cap; B)</i></div>
+        <div><b>2. Substitution:</b> ${pa} + ${pb} - ${pab}</div>
+        <div class="text-purple-700 font-bold text-sm mt-1">3. Result: <i>P(A &cup; B)</i> = ${unionVal}</div>
+        <div class="text-xs text-slate-500 mt-1">${isMutuallyExclusive ? '⚡ Events are Mutually Exclusive because P(A &cap; B) = 0!' : 'ℹ️ Events overlap because P(A &cap; B) > 0.'}</div>
+      `;
+    }
+
+    function initSimChart() {
+      const ctx = document.getElementById('simChart').getContext('2d');
+      simChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Die 1', 'Die 2', 'Die 3', 'Die 4', 'Die 5', 'Die 6'],
+          datasets: [{
+            label: 'Outcome Frequency',
+            data: [0, 0, 0, 0, 0, 0],
+            backgroundColor: 'rgba(22, 163, 74, 0.6)',
+            borderColor: '#16a34a',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+
+    function rollDiceSim() {
+      const log = document.getElementById('sim-log');
+      if (simTotal === 0) log.innerHTML = '';
+      
+      for(let i=0; i<10; i++) {
+        const outcome = Math.floor(Math.random() * 6) + 1;
+        simCounts[outcome] = (simCounts[outcome] || 0) + 1;
+        simTotal++;
+        log.innerHTML += `<div>Trial #${simTotal}: Rolled <b>${outcome}</b></div>`;
+      }
+      log.scrollTop = log.scrollHeight;
+
+      document.getElementById('sim-status').innerText = `Total Trials: ${simTotal}`;
+      simChartInstance.data.datasets[0].data = [
+        simCounts[1], simCounts[2], simCounts[3], simCounts[4], simCounts[5], simCounts[6]
+      ];
+      simChartInstance.update();
+    }
+
+    function tossCoinSim() {
+      const log = document.getElementById('sim-log');
+      if (simTotal === 0) log.innerHTML = '';
+      const outcomes = ['HH', 'HT', 'TH', 'TT'];
+      
+      for(let i=0; i<10; i++) {
+        const outcome = outcomes[Math.floor(Math.random() * 4)];
+        simTotal++;
+        log.innerHTML += `<div>Trial #${simTotal}: Two coins flipped <b>${outcome}</b></div>`;
+      }
+      log.scrollTop = log.scrollHeight;
+      document.getElementById('sim-status').innerText = `Total Trials: ${simTotal}`;
+    }
+
+    function resetSim() {
+      simCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+      simTotal = 0;
+      document.getElementById('sim-status').innerText = `Total Trials: 0`;
+      document.getElementById('sim-log').innerHTML = `Press a button above to run trials...`;
+      simChartInstance.data.datasets[0].data = [0, 0, 0, 0, 0, 0];
+      simChartInstance.update();
+    }
+
+    // --- GUIDED PRACTICE LOGIC ---
+    function loadQuestion(idx) {
+      const q = practiceQuestions[idx];
+      document.getElementById('question-title').innerText = q.title;
+      document.getElementById('question-text').innerHTML = q.question;
+      document.getElementById('progress-bar').style.width = `${((idx + 1) / practiceQuestions.length) * 100}%`;
+
+      document.getElementById('hint-box').classList.add('hidden');
+      document.getElementById('solution-box').classList.add('hidden');
+      document.getElementById('next-btn').classList.add('hidden');
+
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+      q.options.forEach((opt, oIdx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-3.5 rounded-lg border border-slate-200 hover:border-brand-500 hover:bg-brand-50 font-medium text-slate-700 transition flex items-center justify-between text-xs sm:text-sm";
+        btn.onclick = () => checkAnswer(oIdx, btn);
+        btn.innerHTML = `<span>${opt}</span> <i class="fa-regular fa-circle text-slate-300"></i>`;
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selectedIdx, btnElement) {
+      const q = practiceQuestions[currentQuestionIdx];
+      const allBtns = document.getElementById('options-container').children;
+
+      for (let btn of allBtns) {
+        btn.onclick = null;
+        btn.classList.add('cursor-not-allowed');
+      }
+
+      if (selectedIdx === q.correct) {
+        btnElement.classList.remove('border-slate-200', 'hover:bg-brand-50');
+        btnElement.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-800');
+        btnElement.querySelector('i').className = "fa-solid fa-circle-check text-emerald-600";
+        userScore += 20;
+        document.getElementById('score-display').innerText = userScore;
+      } else {
+        btnElement.classList.remove('border-slate-200', 'hover:bg-brand-50');
+        btnElement.classList.add('bg-rose-50', 'border-rose-400', 'text-rose-800');
+        btnElement.querySelector('i').className = "fa-solid fa-circle-xmark text-rose-500";
+        allBtns[q.correct].classList.add('bg-emerald-50', 'border-emerald-500');
+      }
+
+      document.getElementById('solution-text').innerHTML = q.solution.map(s => `<div>${s}</div>`).join('');
+      document.getElementById('solution-box').classList.remove('hidden');
+      document.getElementById('next-btn').classList.remove('hidden');
+    }
+
+    function toggleHint() {
+      const hintBox = document.getElementById('hint-box');
+      const q = practiceQuestions[currentQuestionIdx];
+      document.getElementById('hint-text').innerHTML = q.hint;
+      hintBox.classList.toggle('hidden');
+    }
+
+    function nextQuestion() {
+      if (currentQuestionIdx < practiceQuestions.length - 1) {
+        currentQuestionIdx++;
+        loadQuestion(currentQuestionIdx);
+      } else {
+        alert(`🎉 Practice Completed! Score: ${userScore}/100`);
+        currentQuestionIdx = 0;
+        userScore = 0;
+        document.getElementById('score-display').innerText = userScore;
+        loadQuestion(0);
+      }
+    }
+  </script>
+</body>
+</html>
